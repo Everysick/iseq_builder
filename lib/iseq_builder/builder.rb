@@ -23,12 +23,12 @@ module ISeqBuilder
     end
 
     def new_sequence(type)
-      @sequences << (seq = Sequence.new(type))
+      @sequences << (seq = Sequence.new(self, type))
       seq
     end
 
-    def add_sequence(&block)
-      block.call(seq = Sequence.new(type))
+    def add_sequence(type, &block)
+      block.call(seq = Sequence.new(self, type))
       @sequences << seq
       seq
     end
@@ -57,7 +57,7 @@ module ISeqBuilder
         iseq_list << bin.length
         bin << constant_body.to_bin
       end
-      
+
       header.iseq_list(iseq_list, bin.length)
       bin << iseq_list.pack("I*")
 
